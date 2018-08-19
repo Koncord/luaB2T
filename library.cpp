@@ -73,7 +73,7 @@ namespace B2T
     };
 
 
-    nlohmann::json luaTableToJson(sol::object data, sol::state_view &lua);
+    nlohmann::json luaTableToJson(sol::table table, sol::state_view &lua);
 
     nlohmann::json luaToJson(sol::object data, sol::state_view &lua)
     {
@@ -98,11 +98,10 @@ namespace B2T
         return json;
     }
 
-    nlohmann::json luaTableToJson(sol::object data, sol::state_view &lua)
+    nlohmann::json luaTableToJson(sol::table table, sol::state_view &lua)
     {
         bool allNums = true;
 
-        sol::table table = data.as<sol::table>();
         for (const auto &[key, value] : table)
         {
             if (key.get_type() != sol::type::number)
