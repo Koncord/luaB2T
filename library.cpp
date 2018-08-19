@@ -69,8 +69,7 @@ namespace B2T
         module["to_cbor"] = [](const char *jsonData) {
             auto json = nlohmann::json::parse(jsonData);
             std::vector<uint8_t> adata = nlohmann::json::to_cbor(json);
-            std::string sdata((char*) adata.data(), adata.size());
-            return sdata;
+            return std::string((char*) adata.data(), adata.size());
         };
 
         module["from_cbor"] = [](sol::object data, sol::this_state L) {
@@ -80,6 +79,31 @@ namespace B2T
             return jsonParseValue(json, lua);
         };
 
+        module["to_msgpack"] = [](const char *jsonData) {
+            auto json = nlohmann::json::parse(jsonData);
+            std::vector<uint8_t> adata = nlohmann::json::to_msgpack(json);
+            return std::string((char*) adata.data(), adata.size());
+        };
+
+        module["from_msgpack"] = [](sol::object data, sol::this_state L) {
+            sol::state_view lua(L);
+            nlohmann::json json = nlohmann::json::from_msgpack(data.as<std::string>());
+
+            return jsonParseValue(json, lua);
+        };
+
+        module["to_ubjson"] = [](const char *jsonData) {
+            auto json = nlohmann::json::parse(jsonData);
+            std::vector<uint8_t> adata = nlohmann::json::to_ubjson(json);
+            return std::string((char*) adata.data(), adata.size());
+        };
+
+        module["from_ubjson"] = [](sol::object data, sol::this_state L) {
+            sol::state_view lua(L);
+            nlohmann::json json = nlohmann::json::from_ubjson(data.as<std::string>());
+
+            return jsonParseValue(json, lua);
+        };
         return module;
     }
 }
