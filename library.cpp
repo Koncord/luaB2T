@@ -8,7 +8,6 @@
 
 namespace B2T
 {
-    sol::object jsonParseValue(const nlohmann::json::value_type &value, sol::state_view &lua);
     sol::object jsonParseObj(const nlohmann::json::object_t &obj, sol::state_view &lua);
     sol::object jsonParseArray(const nlohmann::json::array_t &obj, sol::state_view &lua);
 
