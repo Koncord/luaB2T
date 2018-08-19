@@ -4,7 +4,7 @@ extern "C" {
 
 #include <lua.h>
 #include <lauxlib.h>
-#include <luacbor_export.h>
+#include <b2t_export.h>
 
-LUACBOR_EXPORT int luaopen_B2T(lua_State *L);
+B2T_EXPORT int luaopen_B2T(lua_State *L);
 }
