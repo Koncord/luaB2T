@@ -1,3 +1,4 @@
-#B2T lua library
+B2T lua library
+===============
 
 todo readme
