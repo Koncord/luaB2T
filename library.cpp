@@ -32,14 +32,14 @@ namespace B2T
     sol::object jsonParseObj(const nlohmann::json::object_t &obj, sol::state_view &lua)
     {
         sol::table table = lua.create_table(0, obj.size());
-        for (const auto &[key, value] : obj)
+        for (const auto &item : obj)
         {
-            if (value.is_object())
-                table[key] = jsonParseObj(value, lua);
-            else if (value.is_array())
-                table[key] = jsonParseArray(value, lua);
+            if (item.second.is_object())
+                table[item.first] = jsonParseObj(item.second, lua);
+            else if (item.second.is_array())
+                table[item.first] = jsonParseArray(item.second, lua);
             else
-                table[key] = jsonParseValue(value, lua);
+                table[item.first] = jsonParseValue(item.second, lua);
         }
         return table;
     }
@@ -101,9 +101,9 @@ namespace B2T
     {
         bool allNums = true;
 
-        for (const auto &[key, value] : table)
+        for (const auto &item : table)
         {
-            if (key.get_type() != sol::type::number)
+            if (item.first.get_type() != sol::type::number)
             {
                 allNums = false;
                 break;
@@ -120,8 +120,8 @@ namespace B2T
         else
         {
             nlohmann::json::object_t object;
-            for (const auto &[key, value] : table)
-                object[key.as<std::string>()] = luaToJson(value, lua);
+            for (const auto &item : table)
+                object[item.first.as<std::string>()] = luaToJson(item.second, lua);
             return object;
         }
     }
